@@ -30,7 +30,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       timestamps()
     end
 
-    create unique_index(:worlds, [:name])
+    create(unique_index(:worlds, [:name]))
 
     ############################################################################
     create table(:locations, primary_key: false) do
@@ -49,7 +49,8 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:id, :uuid, primary_key: true)
       add(:name, :citext)
     end
-    create unique_index(:player_tracks, [:name])
+
+    create(unique_index(:player_tracks, [:name]))
 
     create table(:player_track_ranks, primary_key: false) do
       add(:id, :uuid, primary_key: true)
@@ -57,7 +58,8 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:name, :citext)
       add(:level, :integer)
     end
-    create unique_index(:player_track_ranks, [:track_id, :name])
+
+    create(unique_index(:player_track_ranks, [:track_id, :name]))
 
     create table(:player_ranks, primary_key: false) do
       add(:id, :uuid, primary_key: true)
@@ -137,12 +139,13 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
 
     create table(:player_homes, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false )
-      add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all), null: false )
+      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false)
+      add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all), null: false)
       add(:name, :citext)
       timestamps()
     end
-    create unique_index(:player_homes, [:name])
+
+    create(unique_index(:player_homes, [:name]))
 
     # create table(:player_beds, primary_key: false) do
     #   add(:id, :uuid, primary_key: true)
@@ -237,9 +240,11 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:claimed_chunks, :integer)
       # add(:area_total, :integer)
       add(:stats, :map)
-      add(:config, :map) # "worlds"
+      # "worlds"
+      add(:config, :map)
       timestamps()
     end
+
     create(unique_index(:lands, [:name]))
 
     create table(:land_members, primary_key: false) do
@@ -267,7 +272,8 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:expires, :utc_datetime)
       timestamps()
     end
-    create unique_index(:land_invites, [:player_id, :land_id])
+
+    create(unique_index(:land_invites, [:player_id, :land_id]))
 
     # nations
     #   - name
@@ -308,6 +314,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     end
 
     # Future:
+    # * Perms
     # * Blacklist
     # * Mail?
     # * friend groups (unassociated with anything else)

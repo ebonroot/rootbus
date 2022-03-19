@@ -1,21 +1,16 @@
 syntax = "proto3";
 
-import "policies.proto";
-
 package Rootbus.Protobuf;
 
 message KeyValue {
   oneof value {
-    // if expanding, update Data.KeyValue
     string string = 1;
     double double = 2;
     sint64 int64 = 3;
     bytes bytes = 4;
-    Policy policy = 5;
     Values map = 6;
     Multiple list = 7;
     bool bool = 8;
-    PolicySet policy_set = 9;
   }
 }
 

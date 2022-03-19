@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+import "msg/key_value.proto";
+
+// reflecting a Minecraft event
+message Event {
+  string name = 1;
+  map<string, KeyValue> data = 2;
+}

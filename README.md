@@ -95,7 +95,7 @@ Prerequisite: Elixir and Postgres.
    export PATH=$PATH:~/.mix/escripts
 
    rm lib/protobuf/*
-   protoc -I protobuf --elixir_out=lib/protobuf protobuf/*
+   protoc -I ../protobuf --elixir_out=lib/protobuf ../protobuf/*/*.proto
 
    mix format
    ```

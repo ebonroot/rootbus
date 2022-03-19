@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package Rootbus.Protobuf;
-
-enum SchemaType {
-  player = 0;
-}
