@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+enum QueryType {
+  create = 0;
+  read = 1;
+  update = 2;
+  delete = 3;
+}

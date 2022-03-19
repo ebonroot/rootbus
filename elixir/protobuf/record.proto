@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+import "key_value.proto";
+import "schema_type.proto";
+import "change_schema.proto";
+
+message Record {
+  // required
+  SchemaType schema = 1;
+  // required
+  QueryType type = 2;
+  map <string, KeyValue> data = 4;
+}

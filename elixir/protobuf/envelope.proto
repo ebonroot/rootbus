@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+import "event.proto";
+import "query.proto";
+import "record.proto";
+
+message Envelope {
+  string id = 0;
+  uint64 ts = 1;
+  string source_id = 2;
+  string target_id = 3;
+
+  // correlate types defined here to match Log types
+  oneof topic {
+    Rootbus.Protobuf.Event event = 6;
+    Rootbus.Protobuf.Query query = 7;
+    Rootbus.Protobuf.Record record = 8;
+  }
+}

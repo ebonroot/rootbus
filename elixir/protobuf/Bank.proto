@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+message Bank {
+  string id = 1;
+  // owner
+  // balance
+}
+
+message BankLedger {
+  // -
+  // -
+}

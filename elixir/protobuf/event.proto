@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+import "ref/schema_type.proto";
+import "ref/key_value.proto";
+
+// reflecting a Minecraft event
+message Event {
+  // SchemaType schema = 1;
+  string name = 2;
+  map<string, KeyValue> data = 3;
+}
