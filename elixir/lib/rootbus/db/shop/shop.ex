@@ -8,11 +8,15 @@ defmodule Rootbus.Db.Shop do
   schema "shops" do
     belongs_to(:location, Db.Location)
     belongs_to(:player, Db.Player)
+    field(:item_type, :string)
+    field(:buy_price, :float)
+    field(:sell_price, :float)
+    field(:settings, :map)
     timestamps()
   end
 
-  @required_fields [:location_id, :player_id]
-  @update_fields []
+  @required_fields [:location_id, :player_id, :item_type]
+  @update_fields [:buy_price, :sell_price, :item_type, :settings]
   @create_fields @required_fields ++ @update_fields
 
   def validate(chgset) do

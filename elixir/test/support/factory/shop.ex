@@ -6,7 +6,8 @@ defmodule Rootbus.Test.Factory.Shop do
       def shop_factory do
         %Db.Shop{
           location: build(:location),
-          player: build(:player)
+          player: build(:player),
+          item_type: Faker.Pizza.cheese()
         }
       end
     end

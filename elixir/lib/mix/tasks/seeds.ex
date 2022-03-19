@@ -37,9 +37,9 @@ defmodule Mix.Tasks.Seeds do
 
     tracks = ["Chromatic", "Gemstone"]
 
-    [chr_track, _gem_track] =
+    [chr_track, gem_track] =
       Enum.map(tracks, fn track ->
-        {:ok, %{id: id} = track} =
+        {:ok, track} =
           Db.PlayerTracks.create(%{
             name: track
           })
@@ -60,14 +60,21 @@ defmodule Mix.Tasks.Seeds do
       {10, "Grandmaster"}
     ]
 
-    Enum.each(chr_ranks, fn {level, name} ->
-      {:ok, _} =
-        Db.PlayerTrackRanks.create(%{
-          track_id: chr_track.id,
-          name: name,
-          level: level
-        })
-    end)
+    gem_ranks = [
+      {1, "VIP"},
+      {2, "Elite"},
+      {3, "Champion"},
+      {4, "Veteran"},
+      {5, "Hero"},
+      {6, "Legend"},
+      {8, "Saint"},
+      {10, "Titan"},
+      {12, "Eternal"},
+      {15, "Immortal"}
+    ]
+
+    map_ranks(chr_track, chr_ranks)
+    map_ranks(gem_track, gem_ranks)
   end
 
   def seed(_) do
@@ -87,5 +94,17 @@ defmodule Mix.Tasks.Seeds do
       topic-schema={path-to-import-file}
 
     """)
+  end
+
+  ##############################################################################
+  defp map_ranks(track, ranks) do
+    Enum.each(ranks, fn {level, name} ->
+      {:ok, _} =
+        Db.PlayerTrackRanks.create(%{
+          track_id: track.id,
+          name: name,
+          level: level
+        })
+    end)
   end
 end

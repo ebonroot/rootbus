@@ -12,12 +12,11 @@ defmodule Rootbus.Db.Location do
     field(:z, :float)
     field(:yaw, :float)
     field(:pitch, :float)
-    field(:name, :string)
     timestamps()
   end
 
   @required_fields [:world_id, :x, :y, :z]
-  @update_fields [:yaw, :pitch, :name]
+  @update_fields [:yaw, :pitch]
   @create_fields @required_fields ++ @update_fields
 
   def validate(chgset) do

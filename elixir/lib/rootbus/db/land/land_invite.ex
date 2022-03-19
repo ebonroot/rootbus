@@ -1,27 +1,19 @@
-defmodule Rootbus.Db.Land do
+defmodule Rootbus.Db.LandInvite do
   use Rootbus.Ecto
 
   @timestamps_opts [type: :utc_datetime]
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  # ... what is type?
-  defenum(Type, default: 0)
-
-  schema "lands" do
-    belongs_to(:world, Db.World)
-    field(:name, :string)
-    field(:title, :string)
-    field(:type, Type, default: :default)
-    belongs_to(:spawn, Db.Location)
-    field(:claimed_chunks)
-    field(:stats)
-    field(:config)
+  schema "land_invites" do
+    belongs_to(:player, Db.Player)
+    belongs_to(:land, Db.Land)
+    field(:expires, :utc_datetime)
     timestamps()
   end
 
-  @required_fields [:name, :world_id]
-  @update_fields [:title, :type, :spawn_id, :claimed_chunks, :stats, :config]
+  @required_fields [:player_id, :land_id, :expires]
+  @update_fields []
   @create_fields @required_fields ++ @update_fields
 
   def validate(chgset) do
@@ -29,12 +21,18 @@ defmodule Rootbus.Db.Land do
     |> validate_required(@required_fields)
   end
 
+  @doc """
+  Build a changeset for creating a new LandInvite.
+  """
   def build(params \\ %{}) do
     %__MODULE__{}
     |> cast(params, @create_fields)
     |> validate
   end
 
+  @doc """
+  Changeset for performing updates to a LandInvite.
+  """
   def changeset(item, attrs) do
     item
     |> cast(attrs, @update_fields)

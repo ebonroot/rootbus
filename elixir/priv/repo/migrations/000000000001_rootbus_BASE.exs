@@ -26,9 +26,11 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     create table(:worlds, primary_key: false) do
       add(:id, :uuid, primary_key: true)
       add(:server_id, :binary_id)
-      add(:name, :string)
+      add(:name, :citext)
       timestamps()
     end
+
+    create unique_index(:worlds, [:name])
 
     ############################################################################
     create table(:locations, primary_key: false) do
@@ -39,22 +41,23 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:z, :float)
       add(:yaw, :float)
       add(:pitch, :float)
-      add(:name, :string)
       timestamps()
     end
 
     ############################################################################
     create table(:player_tracks, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:name, :string)
+      add(:name, :citext)
     end
+    create unique_index(:player_tracks, [:name])
 
     create table(:player_track_ranks, primary_key: false) do
       add(:id, :uuid, primary_key: true)
       add(:track_id, references(:player_tracks, on_delete: :delete_all, type: :uuid), null: false)
-      add(:name, :string)
+      add(:name, :citext)
       add(:level, :integer)
     end
+    create unique_index(:player_track_ranks, [:track_id, :name])
 
     create table(:player_ranks, primary_key: false) do
       add(:id, :uuid, primary_key: true)
@@ -132,30 +135,29 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       )
     end
 
-    # TODO: move name into these tables and add index [:player_id, :name]
     create table(:player_homes, primary_key: false) do
-      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all),
-        primary_key: true,
-        null: false
-      )
-
-      add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all),
-        primary_key: true,
-        null: false
-      )
+      add(:id, :uuid, primary_key: true)
+      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false )
+      add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all), null: false )
+      add(:name, :citext)
+      timestamps()
     end
+    create unique_index(:player_homes, [:name])
 
-    create table(:player_beds, primary_key: false) do
-      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all),
-        primary_key: true,
-        null: false
-      )
-
-      add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all),
-        primary_key: true,
-        null: false
-      )
-    end
+    # create table(:player_beds, primary_key: false) do
+    #   add(:id, :uuid, primary_key: true)
+    #   add(:player_id, references(:players, type: :uuid, on_delete: :delete_all),
+    #     primary_key: true,
+    #     null: false
+    #   )
+    #
+    #   add(:location_id, references(:locations, type: :uuid, on_delete: :delete_all),
+    #     primary_key: true,
+    #     null: false
+    #   )
+    #   add(:name, :citext)
+    # end
+    # create unique_index(:player_homes, [:name])
 
     ############################################################################
     create table(:player_logs, primary_key: false) do
@@ -204,6 +206,10 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:id, :uuid, primary_key: true)
       add(:location_id, references(:locations, on_delete: :delete_all, type: :uuid), null: false)
       add(:player_id, references(:players, on_delete: :delete_all, type: :uuid), null: false)
+      add(:item_type, :citext)
+      add(:buy_price, :float)
+      add(:sell_price, :float)
+      add(:settings, :map)
       timestamps()
     end
 
@@ -212,7 +218,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:id, :uuid, primary_key: true)
       add(:player_id, references(:players, on_delete: :delete_all, type: :uuid), null: false)
       add(:location_id, references(:locations, on_delete: :delete_all, type: :uuid), null: false)
-      add(:name, :string)
+      add(:name, :citext)
       timestamps()
     end
 
@@ -221,10 +227,20 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     ############################################################################
     create table(:lands, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:name, :string)
+      add(:name, :citext)
       add(:world_id, references(:worlds, on_delete: :delete_all, type: :uuid), null: false)
+      add(:type, :integer)
+      add(:title, :citext)
+      add(:spawn_id, references(:locations, on_delete: :delete_all, type: :uuid), null: true)
+      # add(:shield ???
+      # add(:category ???
+      add(:claimed_chunks, :integer)
+      # add(:area_total, :integer)
+      add(:stats, :map)
+      add(:config, :map) # "worlds"
       timestamps()
     end
+    create(unique_index(:lands, [:name]))
 
     create table(:land_members, primary_key: false) do
       add(:id, :uuid, primary_key: true)
@@ -237,9 +253,33 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
         primary_key: true
       )
 
+      add(:contributed_chunks, :integer)
       add(:type, :integer)
+      # "vs" column from Lands ... is what?
+      add(:meta, :map)
       timestamps()
     end
+
+    create table(:land_invites, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
+      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
+      add(:land_id, references(:lands, type: :uuid, null: false, on_delete: :delete_all))
+      add(:expires, :utc_datetime)
+      timestamps()
+    end
+    create unique_index(:land_invites, [:player_id, :land_id])
+
+    # nations
+    #   - name
+    #   - capital
+    #   - taxes
+    #   - inbox??
+    #   - effects??
+    # nation_lands
+    #   - nation_id
+    #   - land_id
+    # Log of activity; aka "inbox"
+    # wars...
 
     ############################################################################
     create table(:bank_accounts, primary_key: false) do
@@ -247,7 +287,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:player_id, references(:players, on_delete: :delete_all, type: :uuid), null: true)
       add(:shop_id, references(:shops, on_delete: :delete_all, type: :uuid), null: true)
       add(:land_id, references(:lands, on_delete: :delete_all, type: :uuid), null: true)
-      add(:name, :string)
+      add(:name, :citext)
       add(:type, :integer)
       add(:balance, :float)
       timestamps()
@@ -269,6 +309,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
 
     # Future:
     # * Blacklist
-    #
+    # * Mail?
+    # * friend groups (unassociated with anything else)
   end
 end

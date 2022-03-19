@@ -19,6 +19,14 @@ defmodule Rootbus.Test.Factory.Player do
         }
       end
 
+      def player_home_factory do
+        %Db.PlayerHome{
+          player: build(:player),
+          location: build(:location),
+          name: Faker.Pokemon.name()
+        }
+      end
+
       def player_item_factory do
         %Db.PlayerItem{
           player: build(:player),
