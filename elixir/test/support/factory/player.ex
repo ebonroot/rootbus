@@ -29,8 +29,7 @@ defmodule Rootbus.Test.Factory.Player do
 
       def player_item_factory do
         %Db.PlayerItem{
-          player: build(:player),
-          name: Faker.Industry.industry(),
+          item_type: Faker.Industry.industry(),
           position: 32,
           quantity: 1
         }

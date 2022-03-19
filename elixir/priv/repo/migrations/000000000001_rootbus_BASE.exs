@@ -90,8 +90,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     ############################################################################
     create table(:player_items, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:player_id, references(:players, on_delete: :delete_all, type: :uuid), null: false)
-      add(:name, :string)
+      add(:item_type, :string)
       # TBD: what all should be in this
       add(:meta, :map)
       add(:position, :integer)

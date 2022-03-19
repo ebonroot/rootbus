@@ -6,15 +6,14 @@ defmodule Rootbus.Db.PlayerItem do
   @foreign_key_type :binary_id
 
   schema "player_items" do
-    belongs_to(:player, Db.Player)
-    field(:name, :string)
+    field(:item_type, :string)
     field(:position, :integer)
     field(:quantity, :integer)
     field(:meta, :map)
     timestamps()
   end
 
-  @required_fields [:player_id, :name]
+  @required_fields [:item_type]
   @update_fields [:position, :quantity, :meta]
   @create_fields @required_fields ++ @update_fields
 
