@@ -249,13 +249,9 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     create table(:land_members, primary_key: false) do
       add(:id, :uuid, primary_key: true)
 
-      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all),
-        primary_key: true
-      )
+      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
 
-      add(:land_id, references(:lands, type: :uuid, null: false, on_delete: :delete_all),
-        primary_key: true
-      )
+      add(:land_id, references(:lands, type: :uuid, null: false, on_delete: :delete_all))
 
       add(:contributed_chunks, :integer)
       add(:type, :integer)
