@@ -35,7 +35,7 @@ many disparate servers.
 
 ## Architecture
 
-This system uses ZeroMQ, which, unlike other databuses (RabbitMQ, Redis), does
+This system uses ZeroMQ, which, unlike other data buses (RabbitMQ, Redis), does
 not require an intermediary management server.  The only system required is
 the Root Bus server itself (Elixir/erlang), and configuring plugins to use this
 bus vs other databases.
@@ -45,6 +45,8 @@ bus vs other databases.
 ![ER Diagram](/docs/ER-diagram.png)
 
 ### Protobufs
+
+Look in `./protobuf`
 
 << more to come here on the structs >>
 
@@ -59,6 +61,8 @@ more focused manner.
 https://developers.google.com/protocol-buffers/docs/proto3
 
 ## Java API
+
+Look in `./java`
 
 The goal is to get a java library API that can be used in any plugin, such that
 you can do things like:
@@ -77,6 +81,8 @@ Or whatever the equivalance will be for Java.  Perhaps the more typically java v
 ```
 
 ## Elixir Development
+
+Look in `./elixir`
 
 Prerequisite: Elixir and Postgres.
 
