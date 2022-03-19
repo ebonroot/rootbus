@@ -35,11 +35,37 @@ defmodule Mix.Tasks.Seeds do
   def seed(:all) do
     IO.puts("Basic seeding for all environments")
 
-    ["Chromatic", "Gemstone"]
-    |> Enum.each(fn track ->
-      {:ok, t} =
-        Db.PlayerTracks.create(%{
-          name: track
+    tracks = ["Chromatic", "Gemstone"]
+
+    [chr_track, _gem_track] =
+      Enum.map(tracks, fn track ->
+        {:ok, %{id: id} = track} =
+          Db.PlayerTracks.create(%{
+            name: track
+          })
+
+        track
+      end)
+
+    chr_ranks = [
+      {1, "Beginner"},
+      {2, "Apprentice"},
+      {3, "Explorer"},
+      {4, "Builder"},
+      {5, "Journeyman"},
+      {6, "Expert"},
+      {7, "Artisan"},
+      {8, "Maven"},
+      {9, "Master"},
+      {10, "Grandmaster"}
+    ]
+
+    Enum.each(chr_ranks, fn {level, name} ->
+      {:ok, _} =
+        Db.PlayerTrackRanks.create(%{
+          track_id: chr_track.id,
+          name: name,
+          level: level
         })
     end)
   end

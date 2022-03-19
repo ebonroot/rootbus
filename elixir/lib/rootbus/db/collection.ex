@@ -120,24 +120,24 @@ defmodule Rootbus.Db.Collection do
         |> Repo.insert(on_conflict: on_conflict)
       end
 
-      @doc """
-      Similar to replace, but it doesn't remove existing values if the attrs has nil
-      """
-      @spec replace_fill(map, Keyword.t()) :: model_p_result | ecto_p_result
-      def replace_fill(attrs, clauses) do
-        case one(clauses) do
-          {:error, _} ->
-            create(attrs)
-
-          {:ok, item} ->
-            update_fill(item, attrs)
-        end
-      end
-
-      @spec update_fill(@model.t, attrs :: map) :: model_p_result | ecto_p_result
-      def update_fill(%@model{} = item, attrs) do
-        update(item, Utils.Types.remove_nils_from_map(attrs))
-      end
+      # @doc """
+      # Similar to replace, but it doesn't remove existing values if the attrs has nil
+      # """
+      # @spec replace_fill(map, Keyword.t()) :: model_p_result | ecto_p_result
+      # def replace_fill(attrs, clauses) do
+      #   case one(clauses) do
+      #     {:error, _} ->
+      #       create(attrs)
+      #
+      #     {:ok, item} ->
+      #       update_fill(item, attrs)
+      #   end
+      # end
+      #
+      # @spec update_fill(@model.t, attrs :: map) :: model_p_result | ecto_p_result
+      # def update_fill(%@model{} = item, attrs) do
+      #   update(item, Utils.Types.remove_nils_from_map(attrs))
+      # end
 
       ##########################################################################
       @spec delete(@model.t) :: model_p_result | ecto_p_result
