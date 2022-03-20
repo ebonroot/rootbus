@@ -9,7 +9,7 @@ why it's what Discord uses on their backend).
 
 Used in a message bus with [EbonRoot](https://ebonroot.com).
 
-**Released under GNU Affero GPL.** *Please understand the terms of this license — notably if you run a modified version on a server and let others communicate with it, you must also publish the modified source code changes.* — Ideally we would prefer you make a public repo fork on github, and maintain your changes therein.
+**Released under GNU Affero GPL.** *Please understand the unique terms of this OSS license — notably if you run a modified version on a public server, you must also publish the modified source code changes.* — Ideally we would prefer you make a public repo fork on github, and maintain your changes therein.
 
 * [Data Structs](docs/data-structs.md)
 * [ZeroMQ Mesh](docs/zeromq-mesh.md)
