@@ -44,8 +44,8 @@ many disparate servers.
 
 << WIP: this text is our goal >>
 
-Your plugin's data layer just needs to import the Rootbus java API, then
-you can connect to the bus with:
+Your plugin's data layer just needs to import the Rootbus java API, have a
+Rootbus core server setup, then you can connect to the bus with:
 
 ```java
 Rootbus.Mesh.join("tcp://ip:4040"); // address of one core server
@@ -67,10 +67,16 @@ getShops($world: String) {
 }""");
 ```
 
-Or just request a single item:
+Or just request/update a single item:
 
 ```java
-Rootbus.Db.Player.get(id);
+Rootbus.Db.Player.get(id, Rootbus.Db.Player.ALL); // everything
+Rootbus.Db.Player.get(id, Rootbus.Db.Player.HELD_INVENTORY);
+
+Rootbus.Db.PlayerSheet.get(id, Rootbus.Db.PlayerSheet.HEALTH);
+
+// or update
+Rootbus.Db.PlayerSheet.update(id, Rootbus.Db.PlayerSheet.HEALTH, 120);
 ```
 
 Forwarding an event:
