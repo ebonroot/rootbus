@@ -1,7 +1,7 @@
 # Java API
 
 [
-[TOP](../) |
+[TOP](../README.md) |
 [Data Structs](data-structs.md) |
 [ZeroMQ Mesh](zeromq-mesh.md) |
 [Java Development](java.md) |

@@ -1,7 +1,7 @@
 # Data Structures
 
 [
-[TOP](../) |
+[TOP](../README.md) |
 [Data Structs](data-structs.md) |
 [ZeroMQ Mesh](zeromq-mesh.md) |
 [Java Development](java.md) |
@@ -10,7 +10,7 @@
 
 ## Entity-Relationship Diagram
 
-This ER diagram is for the data within the database.  You can see the [table](../elixir/rootbus/priv/repo/migrations) and [model](../elixir/rootbus/lib/rootbus/db) and definitions as well.
+This ER diagram is for the data within the database.  You can see the [table](../elixir/priv/repo/migrations) and [model](../elixir/lib/rootbus/db) and definitions as well.
 
 ![ER Diagram](/docs/ER-diagram.webp)
 
