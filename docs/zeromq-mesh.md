@@ -1,11 +1,11 @@
 # ZeroMQ Architecture and Discovery
 
 [
-[TOP](../README.md) |
-[Data Structs](docs/data-structs.md) |
-[Zero MQ Mesh](docs/zeromq-mesh.md) |
-[Java Development](docs/java.md) |
-[Elixir Development](docs/elixir.md)
+[TOP](../) |
+[Data Structs](data-structs.md) |
+[Zero MQ Mesh](zeromq-mesh.md) |
+[Java Development](java.md) |
+[Elixir Development](elixir.md)
 ]
 
 This system uses ZeroMQ, which, unlike other data buses (RabbitMQ, Redis), does
