@@ -3,7 +3,7 @@
 [
 [TOP](../) |
 [Data Structs](data-structs.md) |
-[Zero MQ Mesh](zeromq-mesh.md) |
+[ZeroMQ Mesh](zeromq-mesh.md) |
 [Java Development](java.md) |
 [Elixir Development](elixir.md)
 ]

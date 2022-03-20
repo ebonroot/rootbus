@@ -12,7 +12,7 @@ Used in a message bus with [EbonRoot](https://ebonroot.com).
 **Released under GNU Affero GPL.** *Please understand the terms of this license — notably if you run a modified version on a server and let others communicate with it, you must also publish the modified source code changes.* — Ideally we would prefer you make a public repo fork on github, and maintain your changes therein.
 
 * [Data Structs](docs/data-structs.md)
-* [Zero MQ Mesh](docs/zeromq-mesh.md)
+* [ZeroMQ Mesh](docs/zeromq-mesh.md)
 * [Java Development](docs/java.md)
 * [Elixir Development](docs/elixir.md)
 
@@ -45,10 +45,12 @@ many disparate servers.
 << WIP: this text is our goal, not yet fully implemented.  See also: [Data Structs](docs/data-structs.md) >>
 
 Your plugin's data layer just needs to import the Rootbus java API, have a
-Rootbus core server setup, then you can connect to the bus with:
+Rootbus core server setup, then you can connect to the bus with the following.  See [ZeroMQ Mesh](docs/zeromq-mesh.md) for more about the
+message bus mesh.
 
 ```java
-Rootbus.Mesh.join("tcp://ip:4040"); // address of one core server
+// address of one core server, the rest come automatically afterwards
+Rootbus.Mesh.join("tcp://ip:4040");
 ```
 
 After this you can use any of the rootbus data types, along with a powerful query structure following [GraphQL standard](https://graphql.org):
