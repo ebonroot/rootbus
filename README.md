@@ -42,7 +42,7 @@ many disparate servers.
 
 ## How to use in a Plugin
 
-<< WIP: this text is our goal >>
+<< WIP: this text is our goal, not yet fully implemented.  See also: [Data Structs](docs/data-structs.md) >>
 
 Your plugin's data layer just needs to import the Rootbus java API, have a
 Rootbus core server setup, then you can connect to the bus with:
