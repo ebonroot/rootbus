@@ -15,7 +15,10 @@ bus vs other databases.
 
 ## Server Types
 
-There are three types of nodes: PROXY (i.e. [Waterfall](https://papermc.io/downloads#Waterfall)), SERVER (i.e. [PaperMc.io](https://papermc.io/), and CORE (the Rootbus server and its postgres database).  PROXY nodes are
+There are three types of nodes:
+  PROXY (i.e. [Waterfall](https://papermc.io/downloads#Waterfall)),
+  SERVER (i.e. [PaperMc](https://papermc.io/)),
+  and CORE (the Rootbus server and its postgres database).  PROXY nodes are
 proxying users to a minecraft server, which are SERVER nodes.  Both of these
 are typical java.  CORE interfaces with the data storage, and is written in
 elixir.
