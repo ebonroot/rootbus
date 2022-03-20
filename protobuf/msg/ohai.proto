@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+message MeshPeer {
+  enum PeerRole {
+    PROXY = 1;
+    SERVER = 2;
+    CORE = 3;
+  }
+  string id = 1;
+  PeerRole role = 2;
+  int port = 2;
+}
+
+message Ohai {
+  MeshPeer self = 1;
+  repeated MeshPeer peers = 2;
+}

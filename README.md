@@ -9,6 +9,10 @@ Used in a message bus with [EbonRoot](https://ebonroot.com).
 
 **Released under GNU Affero GPL.** *Please understand the terms of this license — notably if you run a modified version on a server and let others communicate with it, you must also publish the modified source code changes.* — Ideally we would prefer you make a public repo fork on github, and maintain your changes therein.
 
+* [Data Structs](docs/data-structs.md)
+* [Zero MQ Mesh](docs/zeromq-mesh.md)
+* [Java Development](docs/java.md)
+* [Elixir Development](docs/elixir.md)
 
 ## Why
 
@@ -32,79 +36,3 @@ By centralizing messages into a databus it also allows a single location
 to process some meta-game logic (such as buying things from shops, or
 levelling up ranks), so it is no longer decentralized and out-of-sync, across
 many disparate servers.
-
-## Architecture
-
-This system uses ZeroMQ, which, unlike other data buses (RabbitMQ, Redis), does
-not require an intermediary management server.  The only system required is
-the Root Bus server itself (Elixir/erlang), and configuring plugins to use this
-bus vs other databases.
-
-### Entity-Relationship Diagram
-
-![ER Diagram](/docs/ER-diagram.png)
-
-### Protobufs
-
-Look in `./protobuf`
-
-<< more to come here on the structs >>
-
-`Envelope` is an outer wrapper for all other types.  Everything should embed
-from that point.
-
-`Query` follows a GraphQL like approach (query or mutation).  Still in-design,
-but we will need to determine how to scope this. It's not efficient to keep
-the query string like in GraphQL, is there a way we can make the request in a
-more focused manner.
-
-https://developers.google.com/protocol-buffers/docs/proto3
-
-## Java API
-
-Look in `./java`
-
-The goal is to get a java library API that can be used in any plugin, such that
-you can do things like:
-
-```
-  Rootbus.get(Rootbus.PLAYER, player_id)
-  Rootbus.update(Rootbus.PLAYER, ...changes here...)
-
-  Rootbus.list(Rootbus.SHOPS, "filter here")
-```
-
-Or whatever the equivalance will be for Java.  Perhaps the more typically java verbose:
-
-```
-  Rootbus.getPlayerWithId(player_id)
-```
-
-## Elixir Development
-
-Look in `./elixir`
-
-Prerequisite: Elixir and Postgres.
-
-* Linux: install as appropriate for your platform (yum, apk, apt)
-* MacOS `brew install elixir` and `brew install postgres` is sufficient
-* Windows... TBD
-
-
-### Compiling protobuf structs
-
-1. install `protobuf` package for your app to get the `protoc` command.
-2. install escript bits for mix, add escript to your path, and generate the models:
-
-   ```bash
-   mix escript.install hex protobuf
-   export PATH=$PATH:~/.mix/escripts
-
-   rm lib/protobuf/*
-   protoc -I ../protobuf --elixir_out=lib/protobuf ../protobuf/*/*.proto
-
-   mix format
-   ```
-
-3. IMPORTANT: run `mix format` after regenerating new protobuf files, as the
-   generated files do not follow format standard structure.
