@@ -38,3 +38,53 @@ By centralizing messages into a databus it also allows a single location
 to process some meta-game logic (such as buying things from shops, or
 levelling up ranks), so it is no longer decentralized and out-of-sync, across
 many disparate servers.
+
+
+## How to use in a Plugin
+
+<< WIP: this text is our goal >>
+
+Your plugin's data layer just needs to import the Rootbus java API, then
+you can connect to the bus with:
+
+```java
+Rootbus.Mesh.join("tcp://ip:4040"); // address of one core server
+```
+
+After this you can use any of the rootbus data types, along with a powerful query structure following [GraphQL standard](https://graphql.org):
+
+```java
+// TBD how do other java Graphql interfaces handle varibles?
+Rootbus.query("""
+getShops($world: String) {
+  getShops(world: $world) {
+    id
+    location { worldId, x, y, z }
+    itemType
+    buyPrice
+    sellPrice
+  }
+}""");
+```
+
+Or just request a single item:
+
+```java
+Rootbus.Db.Player.get(id);
+```
+
+Forwarding an event:
+
+(note: how do people deal with java not having free form dicts??  The following example isn't correctly java, so we'd have to get it dialed in for java).
+
+```java
+Rootbus.Message.Event.sendToRole("PROXY",
+  new Event("PlayerTeleport",
+    server="server-id",
+    world="world-id",
+    location="x,y,z")
+  );
+```
+
+Following the above event the proxy would move the player to the new server, and then send an event to that server `PlayerTeleportArrival` which the server
+would receive and handle the rest of the movement.

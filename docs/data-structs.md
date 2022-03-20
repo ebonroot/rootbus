@@ -10,6 +10,8 @@
 
 ## Entity-Relationship Diagram
 
+This ER diagram is for the data within the database.  You can see the [table](../elixir/rootbus/priv/repo/migrations) and [model](../elixir/rootbus/lib/rootbus/db) and definitions as well.
+
 ![ER Diagram](/docs/ER-diagram.webp)
 
 ## Protobufs
