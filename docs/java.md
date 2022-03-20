@@ -10,7 +10,7 @@
 
 << Work in progress >>
 
-Look in `./java`
+Look in [`./java`](../java)
 
 The goal is to get a java library API that can be used in any plugin, such that
 you can do things like:

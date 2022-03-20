@@ -8,7 +8,7 @@
 [Elixir Development](elixir.md)
 ]
 
-Look in `./elixir`
+Look in [`./elixir`](../elixir)
 
 Prerequisite: Elixir and Postgres.
 

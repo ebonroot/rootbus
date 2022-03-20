@@ -14,7 +14,7 @@
 
 ## Protobufs
 
-Look in `./protobuf`
+Look in [`./protobuf`](../protobuf)
 
 << more to come here on the structs >>
 
