@@ -10,7 +10,7 @@
 
 ## Entity-Relationship Diagram
 
-![ER Diagram](/docs/ER-diagram.png)
+![ER Diagram](/docs/ER-diagram.webp)
 
 ## Protobufs
 

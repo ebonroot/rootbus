@@ -1,3 +1,5 @@
+![rootbus](docs/databus.jpg)
+
 # Root Bus — Ebon Root Minecraft Data Bus
 
 Minecraft data schema with proper [data normalization](https://en.wikipedia.org/wiki/Database_normalization) to the third normal form,

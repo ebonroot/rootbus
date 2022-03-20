@@ -24,7 +24,7 @@ All nodes use two ZeroMQ connection types: ROUTER, and DEALER.  Each
 node binds a ROUTER socket, then makes a DEALER connection to any peer nodes
 it has been given in discovery.
 
-![ZeroMQ Mesh](zeromq-mesh.png)
+![ZeroMQ Mesh](zeromq-mesh.webp)
 
 ## Discovery
 
