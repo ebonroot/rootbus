@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package Rootbus.Protobuf;
+
+enum NodeScope {
+  PROXY = 1;
+  SERVER = 2;
+  CORE = 3;
+}

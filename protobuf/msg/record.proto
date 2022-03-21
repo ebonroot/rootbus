@@ -2,13 +2,21 @@ syntax = "proto3";
 
 package Rootbus.Protobuf;
 
-import "msg/key_value.proto";
+import "stubs/key_value.proto";
+import "db/bank.proto";
+import "db/land.proto";
+import "db/player.proto";
+import "db/shop.proto";
 
 message Record {
-  enum SchemaType {
-    player = 0;
+  // uuid as int128 binary
+  bytes id = 1;
+  bool success = 2;
+  string error = 3;
+  oneof topic {
+    Rootbus.Protobuf.Bank bank = 4;
+    Rootbus.Protobuf.Land land = 5;
+    Rootbus.Protobuf.Player player = 6;
+    Rootbus.Protobuf.Shop shop = 7;
   }
-  // required
-  SchemaType schema = 1;
-  map <string, KeyValue> data = 4;
 }

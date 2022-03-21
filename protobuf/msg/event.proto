@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package Rootbus.Protobuf;
 
-import "msg/key_value.proto";
+import "stubs/key_value.proto";
 
 // reflecting a Minecraft event
 message Event {

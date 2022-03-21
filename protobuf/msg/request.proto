@@ -2,20 +2,24 @@ syntax = "proto3";
 
 package Rootbus.Protobuf;
 
-import "msg/key_value.proto";
+import "stubs/key_value.proto";
 
 // requesting information; follows GraphQL paradigms.  Should result in a Record message.
 message Request {
-  enum QueryType {
-    create = 0;
-    read = 1;
-    update = 2;
-    delete = 3;
+  enum Model {
+    BANK = 1;
+    LAND = 2;
+    PLAYER = 3;
+    SHOP = 4;
   }
 
-  QueryType type = 1;
-  // graphql syntax query
-  string query = 2;
-  // nested dictionary of key:value for mutation changes for create/update
-  map <string, KeyValue> variables = 3;
+  // it's a read/list query when false, when true it's a mutation/write/delete
+  bool mutation = 1;
+  // what type of model are we querying
+  Model model = 4;
+  // json-like key/value pairs for arguments of request; matching vars+vals
+  map <string, KeyValue> args = 2;
+  // which vars to include.  If null, ALL vars for the resulting object are included.
+  // can include nested relations
+  repeated string include = 3;
 }

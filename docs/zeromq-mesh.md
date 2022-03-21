@@ -18,10 +18,8 @@ bus vs other databases.
 There are three types of nodes:
   PROXY (i.e. [Waterfall](https://papermc.io/downloads#Waterfall)),
   SERVER (i.e. [PaperMc](https://papermc.io/)),
-  and CORE (the Rootbus server and its postgres database).  PROXY nodes are
-proxying users to a minecraft server, which are SERVER nodes.  Both of these
-are typical java.  CORE interfaces with the data storage, and is written in
-elixir.
+  and CORE (the Rootbus server and its postgres database).
+PROXY nodes are proxying users to a minecraft server, which are SERVER nodes.  Both of these are typical java.  CORE interfaces with the data storage, and is written in elixir.
 
 All nodes use two ZeroMQ connection types: ROUTER, and DEALER.  Each
 node binds a ROUTER socket, then makes a DEALER connection to any peer nodes

@@ -50,35 +50,60 @@ message bus mesh.
 
 ```java
 // address of one core server, the rest come automatically afterwards
-Rootbus.Mesh.join("tcp://ip:4040");
+Rootbus.join("tcp://ip:4040");
 ```
 
-After this you can use any of the rootbus data types, along with a powerful query structure following [GraphQL standard](https://graphql.org):
+Query "Shops" and get a list of Shops matching server/world.  Third argument
+specifies which properties to pull.
 
 ```java
-// TBD how do other java Graphql interfaces handle varibles?
-Rootbus.query("""
-getShops($world: String) {
-  getShops(world: $world) {
-    id
-    location { worldId, x, y, z }
-    itemType
-    buyPrice
-    sellPrice
+import com.ebonroot.rootbus;
+import org.bukkit.World;
+
+public class ShopData {
+  public void list(String serverId, String worldId) {
+    new HashMap<String, Rootbus.Shop> = shops;
+    Rootbus.query(
+      Db.SHOP,
+      ImmutableMap.of("serverId", serverId, "worldId", worldId),
+      ["id", "itemType", "location.x", "location.y", "location.z"],
+      (List<Rootbus.Shop> shops) -> {
+        for (shop : shops) {
+          List list = shops.get("itemType");
+          if (list == null) {
+            list = new List();
+          }
+          shops.add(shop.itemType, list.append(shop));
+        }
+        // update local shops cache.
+        EzShops.update(shops);
+      })
   }
-}""");
+}
 ```
 
-Or just request/update a single item:
+Adding a new shop:
 
 ```java
-Rootbus.Db.Player.get(id, Rootbus.Db.Player.ALL); // everything
-Rootbus.Db.Player.get(id, Rootbus.Db.Player.HELD_INVENTORY);
+import com.ebonroot.rootbus;
+import org.bukkit.World;
 
-Rootbus.Db.PlayerSheet.get(id, Rootbus.Db.PlayerSheet.HEALTH);
+public class ShopData {
+  public create(String serverId, String worldId, double x, double y, double z, String itemType) {
+    Rootbus.update(
+      Db.SHOP,
 
-// or update
-Rootbus.Db.PlayerSheet.update(id, Rootbus.Db.PlayerSheet.HEALTH, 120);
+      ImmutableMap.of(
+        "serverId", serverId, "worldId", worldId,
+        "x", x, "y", y, "z", z, "itemType", itemType),
+      ["id", "itemType", "location.x", "location.y", "location.z"],
+      (Rootbus.Record result) -> {
+        if (result.success) {
+          EzShops.addShop(result.value);
+        }
+      })
+  }
+}
 ```
 
 Forwarding an event:
@@ -94,5 +119,4 @@ Rootbus.Message.Event.sendToRole("PROXY",
   );
 ```
 
-Following the above event the proxy would move the player to the new server, and then send an event to that server `PlayerTeleportArrival` which the server
-would receive and handle the rest of the movement.
+Following the above event the proxy would move the player to the new server, and then send an event to that server `PlayerTeleportArrival` which the server would receive and handle the rest of the movement.
