@@ -1,20 +1,21 @@
-defmodule Rootbus.Db.PlayerRank do
+defmodule Rootbus.Db.Team do
   use Rootbus.Ecto
 
   @timestamps_opts [type: :utc_datetime]
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_ranks" do
-    belongs_to(:player, Db.Player)
-    belongs_to(:rank, Db.PlayerTrackRank)
-    belongs_to(:track, Db.PlayerTrack)
-    field(:meta, :map, default: %{})
+  defenum(Type, persistent: 0, session: 1)
+
+  schema "teams" do
+    field(:type, Type, default: 0)
+    field(:name, :string)
+    field(:meta, :map)
     timestamps()
   end
 
-  @required_fields [:player_id, :rank_id, :track_id]
-  @update_fields [:rank_id, :meta]
+  @required_fields [:type]
+  @update_fields [:name, :meta, :type]
   @create_fields @required_fields ++ @update_fields
 
   def validate(chgset) do
@@ -23,7 +24,7 @@ defmodule Rootbus.Db.PlayerRank do
   end
 
   @doc """
-  Build a changeset for creating a new PlayerRank.
+  Build a changeset for creating a new Team.
   """
   def build(params \\ %{}) do
     %__MODULE__{}
@@ -32,7 +33,7 @@ defmodule Rootbus.Db.PlayerRank do
   end
 
   @doc """
-  Changeset for performing updates to a PlayerRank.
+  Changeset for performing updates to a Team.
   """
   def changeset(item, attrs) do
     item

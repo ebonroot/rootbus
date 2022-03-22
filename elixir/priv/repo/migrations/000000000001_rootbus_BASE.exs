@@ -82,6 +82,8 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
         null: false
       )
 
+      add(:meta, :map)
+
       timestamps()
     end
 
@@ -174,12 +176,15 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     create table(:player_settings, primary_key: false) do
       add(:id, :uuid, primary_key: true)
       add(:player_id, references(:players, on_delete: :delete_all, type: :uuid), null: false)
+      add(:name, :citext)
       add(:type, :integer)
       add(:int, :integer)
       add(:bool, :boolean)
       add(:str, :string)
       timestamps()
     end
+
+    create(unique_index(:player_settings, [:player_id, :type, :name]))
 
     ############################################################################
     create table(:player_sheets, primary_key: false) do
@@ -305,6 +310,26 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
 
       add(:amount, :float)
       add(:memo, :string)
+      timestamps()
+    end
+
+    ############################################################################
+    create table(:teams, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
+      # persistent, session, ...
+      add(:type, :integer)
+      add(:name, :string)
+      add(:meta, :map)
+      # # active == currently players are online
+      # add(:active, :boolean)
+      timestamps()
+    end
+
+    create table(:team_members, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
+      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
+      add(:team_id, references(:teams, type: :uuid, null: false, on_delete: :delete_all))
+      add(:type, :integer)
       timestamps()
     end
 

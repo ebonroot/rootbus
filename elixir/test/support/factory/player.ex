@@ -44,11 +44,12 @@ defmodule Rootbus.Test.Factory.Player do
       end
 
       def player_setting_factory do
-        type = Enum.random(Rootbus.Db.PlayerSetting.Type.__valid_values__())
+        # type = Enum.random(Rootbus.Db.PlayerSetting.Type.__valid_values__())
 
         struct = %Db.PlayerSetting{
           player: build(:player),
-          type: type
+          type: :status,
+          name: sequence("name")
         }
 
         case Enum.random([:int, :str, :bool]) do

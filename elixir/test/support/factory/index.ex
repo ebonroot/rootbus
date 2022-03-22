@@ -5,5 +5,6 @@ defmodule Rootbus.Test.Factory do
   use Rootbus.Test.Factory.Land
   use Rootbus.Test.Factory.Player
   use Rootbus.Test.Factory.Shop
+  use Rootbus.Test.Factory.Team
   use Rootbus.Test.Factory.World
 end
