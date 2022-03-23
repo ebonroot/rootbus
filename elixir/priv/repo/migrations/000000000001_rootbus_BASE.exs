@@ -82,6 +82,7 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
         null: false
       )
 
+      # progress...
       add(:meta, :map)
 
       timestamps()
