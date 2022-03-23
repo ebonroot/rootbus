@@ -8,11 +8,10 @@ import "msg/ohai.proto";
 import "msg/record.proto";
 
 message Envelope {
-  /*
   // this may not be necessary; as it's handled before the envelope is sent
-  NodeScope scope = X;
-  string node_id = X;
-  */
+  // NodeScope scope = X;
+  // string node_id = X;
+
   // timestamp as posix epoch milliseconds as an integer
   uint64 timestamp = 1;
   // envelope ID -- unique UUID as `bytes` in 128bit (not string)
@@ -20,13 +19,8 @@ message Envelope {
   // optional: if message is in response to a previously sent msg, include the
   // prior message id; otherwise it's null
   bytes reply_to_id = 3;
-  /*
-  bytes source_id = X;
-  bytes target_id = X;
-  */
-  /* possibly ad-hoc envelope things via:
-  KeyValue meta = X;
-  */
+  // possibly ad-hoc envelope things via:
+  // KeyValue meta = X;
   oneof topic {
     Rootbus.Protobuf.Ohai event = 4;
     Rootbus.Protobuf.Event event = 5;

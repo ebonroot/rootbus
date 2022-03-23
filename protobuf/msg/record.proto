@@ -10,7 +10,7 @@ import "db/shop.proto";
 
 message Record {
   // uuid as int128 binary
-  bytes id = 1;
+  // bytes id = 1;
   bool success = 2;
   string error = 3;
   oneof topic {
