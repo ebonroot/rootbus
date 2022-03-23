@@ -12,7 +12,13 @@ defmodule Rootbus.MixProject do
       aliases: aliases(),
       preferred_cli_env: [
         coveralls: :test,
+        "coveralls.detail": :test,
         "coveralls.html": :test
+      ],
+      dialyzer: [
+        # ignore_warnings: ".dialyzer_ignore.exs",
+        plt_add_apps: [:mix],
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
       ],
       deps: deps()
     ]
@@ -43,9 +49,10 @@ defmodule Rootbus.MixProject do
     [
       {:excoveralls, "~> 0.14", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test},
-      # {:ecto, "~> 3.7.1"},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_enum, "~> 1.4"},
       {:ecto_sql, "~> 3.4", override: true},
+      {:typed_ecto_schema, "~> 0.3.0"},
       {:postgrex, "~> 0.13"},
       {:faker, "~> 0.10", only: :test},
       {:timex, "~> 3.6"},

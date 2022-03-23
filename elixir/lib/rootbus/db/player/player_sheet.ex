@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerSheet do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_sheets" do
+  typed_schema "player_sheets" do
     belongs_to(:player, Db.Player)
     field(:health, :integer)
     field(:health_scale, :integer)

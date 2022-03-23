@@ -8,7 +8,7 @@ defmodule Rootbus.Db.Land do
   # ... what is type?
   defenum(Type, default: 0)
 
-  schema "lands" do
+  typed_schema "lands" do
     belongs_to(:world, Db.World)
     field(:name, :string)
     field(:title, :string)

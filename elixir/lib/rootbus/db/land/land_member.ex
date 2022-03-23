@@ -7,7 +7,7 @@ defmodule Rootbus.Db.LandMember do
 
   defenum(Type, owner: 1, member: 2)
 
-  schema "land_members" do
+  typed_schema "land_members" do
     belongs_to(:player, Db.Player)
     belongs_to(:land, Db.Land)
     field(:type, Type)

@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerItem do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_items" do
+  typed_schema "player_items" do
     field(:item_type, :string)
     field(:position, :integer)
     field(:quantity, :integer)

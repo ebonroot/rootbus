@@ -31,7 +31,7 @@ defmodule Rootbus.Db.PlayerSetting do
   # field(:accepting_pay, :boolean, default: false)
   # field(:baltop_exempt, :boolean, default: false)
 
-  schema "player_settings" do
+  typed_schema "player_settings" do
     belongs_to(:player, Db.Player)
     field(:type, Type)
     field(:name, Ecto.DangerousAtom)

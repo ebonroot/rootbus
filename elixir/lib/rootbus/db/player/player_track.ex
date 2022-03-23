@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerTrack do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_tracks" do
+  typed_schema "player_tracks" do
     field(:name, :string)
   end
 

@@ -7,11 +7,11 @@ defmodule Rootbus.Db.Collection do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       @type ecto_p_result :: {:ok | :error, Ecto.Changeset.t()}
-      @type model_p_result :: {:ok, @model.t}
+      @type model_p_result :: {:ok, @model.t()}
       @model Keyword.get(opts, :model)
 
       ##########################################################################
-      @spec all!(Keyword.t()) :: nil | Ecto.Changeset.t()
+      @spec all!(Keyword.t()) :: [@model.t()]
       def all!(clauses) do
         Repo.all(from(t in @model, where: ^clauses))
       end
@@ -20,7 +20,7 @@ defmodule Rootbus.Db.Collection do
       def all(), do: all([])
 
       # TBD: what is the type captured by `error` Ecto.QueryError when rescued - BJG
-      @spec all(Keyword.t()) :: {:error, map} | ecto_p_result
+      @spec all(Keyword.t()) :: {:error, map} | {:ok, [@model.t()]}
       def all(clauses) do
         {:ok, Repo.all(from(t in @model, where: ^clauses))}
       rescue
@@ -120,24 +120,24 @@ defmodule Rootbus.Db.Collection do
         |> Repo.insert(on_conflict: on_conflict)
       end
 
-      # @doc """
-      # Similar to replace, but it doesn't remove existing values if the attrs has nil
-      # """
-      # @spec replace_fill(map, Keyword.t()) :: model_p_result | ecto_p_result
-      # def replace_fill(attrs, clauses) do
-      #   case one(clauses) do
-      #     {:error, _} ->
-      #       create(attrs)
-      #
-      #     {:ok, item} ->
-      #       update_fill(item, attrs)
-      #   end
-      # end
-      #
-      # @spec update_fill(@model.t, attrs :: map) :: model_p_result | ecto_p_result
-      # def update_fill(%@model{} = item, attrs) do
-      #   update(item, Utils.Types.remove_nils_from_map(attrs))
-      # end
+      @doc """
+      Similar to replace, but it doesn't remove existing values if the attrs has nil
+      """
+      @spec replace_fill(map, Keyword.t()) :: model_p_result | ecto_p_result
+      def replace_fill(attrs, clauses) do
+        case one(clauses) do
+          {:error, _} ->
+            create(attrs)
+
+          {:ok, item} ->
+            update_fill(item, attrs)
+        end
+      end
+
+      @spec update_fill(@model.t, attrs :: map) :: model_p_result | ecto_p_result
+      def update_fill(%@model{} = item, attrs) do
+        update(item, Utils.Types.remove_nils_from_map(attrs))
+      end
 
       ##########################################################################
       @spec delete(@model.t) :: model_p_result | ecto_p_result
@@ -208,6 +208,38 @@ defmodule Rootbus.Db.Collection do
           {:ok, record} -> record
           o -> o
         end
+      end
+
+      ##########################################################################
+      @doc """
+      Update our updated_at but only if it hasn't changed within a minute
+      (less load)
+      """
+      @update_min_seconds 60
+      def touch(this_id) when is_binary(this_id) do
+        with {:ok, this} <- one(id: this_id) do
+          touch(this)
+        end
+      end
+
+      def touch(%{id: this_id, updated_at: updated}) do
+        now = Utils.Time.now()
+
+        if now - Timex.to_unix(updated) > @update_min_seconds do
+          from(u in @model, where: u.id == ^this_id)
+          |> Repo.update_all(set: [updated_at: Timex.now()])
+        end
+      end
+
+      # Allow for models without timestamps.
+      def touch(this), do: this
+
+      ##########################################################################
+      # a little workaround hack because I don't want to make id's mutable
+      # for everything
+      def change_id(%{id: old_id}, new_id) do
+        from(u in @model, where: u.id == ^old_id)
+        |> Repo.update_all(set: [id: new_id])
       end
     end
   end

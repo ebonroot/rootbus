@@ -7,7 +7,7 @@ defmodule Rootbus.Db.PlayerLog do
 
   defenum(Actions, login: 0, logout: 1)
 
-  schema "player_logs" do
+  typed_schema "player_logs" do
     belongs_to(:player, Db.Player)
     field(:action, Actions)
     field(:ipaddr, :string, default: "")

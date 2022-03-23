@@ -7,7 +7,7 @@ defmodule Rootbus.Db.TeamMember do
 
   defenum(Type, owner: 0, member: 1)
 
-  schema "team_members" do
+  typed_schema "team_members" do
     belongs_to(:player, Db.Player)
     belongs_to(:team, Db.Team)
     field(:type, Type, default: :member)

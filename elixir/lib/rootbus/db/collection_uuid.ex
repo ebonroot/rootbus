@@ -7,11 +7,11 @@ defmodule Rootbus.Db.CollectionUuid do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       @model Keyword.get(opts, :model)
-      @type id :: :uuid
+      @type id :: Ecto.UUID.t()
       use Rootbus.Db.Collection, model: @model
 
       ##########################################################################
-      @spec one!(id | Keyword.t()) :: nil | @model.t()
+      @spec one!(id | keyword()) :: nil | @model.t()
       def one!(id) when is_binary(id), do: one!([id: id], [])
       def one!(id, preload) when is_binary(id) and is_list(preload), do: one!([id: id], preload)
       def one!(any, preload_atom) when is_atom(preload_atom), do: one!(any, [preload_atom])
@@ -24,8 +24,8 @@ defmodule Rootbus.Db.CollectionUuid do
       end
 
       ##########################################################################
-      @spec one(id | Keyword.t(), List.t() | Atom.t()) ::
-              {:ok, @model.t()} | {:error, %Ecto.Changeset{}}
+      @spec one(id | keyword(), list() | atom()) ::
+              {:ok, @model.t()} | {:error, String.t()}
       def one(id) when is_binary(id), do: one([id: id], [])
       def one(id, preload) when is_binary(id) and is_list(preload), do: one([id: id], preload)
       def one(any, preload_atom) when is_atom(preload_atom), do: one(any, [preload_atom])

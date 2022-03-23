@@ -17,14 +17,6 @@ defmodule Rootbus.Test.Factory.Land do
           type: :owner
         }
       end
-
-      def land_invite_factory do
-        %Db.LandInvite{
-          land: build(:land),
-          player: build(:player),
-          expires: Timex.now()
-        }
-      end
     end
   end
 end

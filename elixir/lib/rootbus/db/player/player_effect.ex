@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerEffect do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_effects" do
+  typed_schema "player_effects" do
     belongs_to(:player, Db.Player)
     field(:name, :string)
     field(:duration, :integer)

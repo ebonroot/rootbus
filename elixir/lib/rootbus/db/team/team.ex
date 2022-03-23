@@ -7,7 +7,7 @@ defmodule Rootbus.Db.Team do
 
   defenum(Type, persistent: 0, session: 1)
 
-  schema "teams" do
+  typed_schema "teams" do
     field(:type, Type, default: 0)
     field(:name, :string)
     field(:meta, :map)

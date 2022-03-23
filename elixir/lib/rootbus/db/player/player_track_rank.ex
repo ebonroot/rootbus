@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerTrackRank do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_track_ranks" do
+  typed_schema "player_track_ranks" do
     belongs_to(:track, Db.PlayerTrack)
     field(:name, :string)
     field(:level, :integer)

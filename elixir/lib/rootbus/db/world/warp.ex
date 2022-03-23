@@ -5,7 +5,7 @@ defmodule Rootbus.Db.Warp do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "warps" do
+  typed_schema "warps" do
     belongs_to(:location, Db.Location)
     belongs_to(:player, Db.Player)
     field(:name, :string)

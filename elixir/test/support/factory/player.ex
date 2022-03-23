@@ -104,6 +104,16 @@ defmodule Rootbus.Test.Factory.Player do
           type: :unknown
         }
       end
+
+      def player_invite_factory do
+        %Db.PlayerInvite{
+          player: build(:player),
+          type: :land,
+          ref_id: Ecto.UUID.generate(),
+          meta: %{owner: true},
+          expires: Timex.now()
+        }
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ defmodule Rootbus.Db.PlayerHome do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "player_homes" do
+  typed_schema "player_homes" do
     belongs_to(:player, Db.Player)
     belongs_to(:location, Db.Location)
     field(:name, :string)

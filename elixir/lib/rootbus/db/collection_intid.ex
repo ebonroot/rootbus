@@ -11,7 +11,7 @@ defmodule Rootbus.Db.CollectionIntId do
       @type id :: integer
 
       ##########################################################################
-      @spec one!(id | Keyword.t()) :: nil | @model.t()
+      @spec one!(id | keyword()) :: nil | @model.t()
       def one!(id) when is_integer(id), do: one!([id: id], [])
       def one!(id, preload) when is_integer(id) and is_list(preload), do: one!([id: id], preload)
       def one!(any, preload_atom) when is_atom(preload_atom), do: one!(any, [preload_atom])
@@ -24,8 +24,8 @@ defmodule Rootbus.Db.CollectionIntId do
       end
 
       ##########################################################################
-      @spec one(id | Keyword.t(), List.t() | Atom.t()) ::
-              {:ok, @model.t()} | {:error, %Ecto.Changeset{}}
+      @spec one(id | keyword(), list() | atom()) ::
+              {:ok, @model.t()} | {:error, String.t()}
       def one(id) when is_integer(id), do: one([id: id], [])
       def one(id, preload) when is_integer(id) and is_list(preload), do: one([id: id], preload)
       def one(any, preload_atom) when is_atom(preload_atom), do: one(any, [preload_atom])

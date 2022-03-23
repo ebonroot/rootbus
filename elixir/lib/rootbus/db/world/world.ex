@@ -5,7 +5,7 @@ defmodule Rootbus.Db.World do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "worlds" do
+  typed_schema "worlds" do
     field(:server_id, :binary_id)
     field(:name, :string)
     timestamps()

@@ -7,7 +7,7 @@ defmodule Rootbus.Db.BankAccount do
 
   defenum(Type, player: 0, shop: 1, land: 2)
 
-  schema "bank_accounts" do
+  typed_schema "bank_accounts" do
     belongs_to(:player, Db.Player)
     belongs_to(:shop, Db.Shop)
     belongs_to(:land, Db.Land)

@@ -255,9 +255,9 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
     create table(:land_members, primary_key: false) do
       add(:id, :uuid, primary_key: true)
 
-      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
+      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false)
 
-      add(:land_id, references(:lands, type: :uuid, null: false, on_delete: :delete_all))
+      add(:land_id, references(:lands, type: :uuid, on_delete: :delete_all), null: false)
 
       add(:contributed_chunks, :integer)
       add(:type, :integer)
@@ -265,16 +265,6 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
       add(:meta, :map)
       timestamps()
     end
-
-    create table(:land_invites, primary_key: false) do
-      add(:id, :uuid, primary_key: true)
-      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
-      add(:land_id, references(:lands, type: :uuid, null: false, on_delete: :delete_all))
-      add(:expires, :utc_datetime)
-      timestamps()
-    end
-
-    create(unique_index(:land_invites, [:player_id, :land_id]))
 
     # nations
     #   - name
@@ -328,11 +318,24 @@ defmodule Ebonroot.Repo.Migrations.BaseMigration do
 
     create table(:team_members, primary_key: false) do
       add(:id, :uuid, primary_key: true)
-      add(:player_id, references(:players, type: :uuid, null: false, on_delete: :delete_all))
-      add(:team_id, references(:teams, type: :uuid, null: false, on_delete: :delete_all))
+      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false)
+      add(:team_id, references(:teams, type: :uuid, on_delete: :delete_all), null: false)
       add(:type, :integer)
       timestamps()
     end
+
+    ############################################################################
+    create table(:player_invites, primary_key: false) do
+      add(:id, :uuid, primary_key: true)
+      add(:type, :integer)
+      add(:player_id, references(:players, type: :uuid, on_delete: :delete_all), null: false)
+      add(:ref_id, :binary_id)
+      add(:meta, :map)
+      add(:expires, :utc_datetime)
+      timestamps()
+    end
+
+    create unique_index(:player_invites, [:player_id, :type, :ref_id])
 
     # Future:
     # * Perms

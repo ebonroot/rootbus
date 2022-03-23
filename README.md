@@ -63,20 +63,30 @@ import org.bukkit.World;
 public class ShopData {
   public void list(String serverId, String worldId) {
     new HashMap<String, Rootbus.Shop> = shops;
-    Rootbus.query(
-      Db.SHOP,
-      ImmutableMap.of("serverId", serverId, "worldId", worldId),
+    Rootbus.Shop.query(
+      // keyword map of query args — get a list of all Shops for this world
+      ImmutableMap.of(
+        "serverId", serverId,
+        "worldId", worldId
+      ),
+
+      // list of values to return
       ["id", "itemType", "location.x", "location.y", "location.z"],
-      (List<Rootbus.Shop> shops) -> {
-        for (shop : shops) {
-          List list = shops.get("itemType");
-          if (list == null) {
-            list = new List();
+
+      // callback to handle result after it is received
+      (Rootbus.Record result) -> {
+        if (result.success) {
+          HashMap<String, Rootbus.Shop> shops = new HashMap<String, Rootbus.Shop>();
+          for (Rootbus.Shop shop : result.values) {
+            List list = shops.get(shop.itemType)
+            if (list == null) {
+              list = new List();
+            }
+            shops.put(shop.itemType, list.append(shop));
           }
-          shops.add(shop.itemType, list.append(shop));
+          // update local shops cache.
+          EzShops.update(shops);
         }
-        // update local shops cache.
-        EzShops.update(shops);
       })
   }
 }
@@ -85,38 +95,36 @@ public class ShopData {
 Adding a new shop:
 
 ```java
-import com.ebonroot.rootbus;
+import com.ebonroot.Rootbus;
 import org.bukkit.World;
 
 public class ShopData {
-  public create(String serverId, String worldId, double x, double y, double z, String itemType) {
-    Rootbus.update(
-      Db.SHOP,
-
+  public create(String ownerId, String serverId, String worldId, double x, double y, double z, String itemType) {
+    Rootbus.Shop.update(
+      // keyvalue map of query args
       ImmutableMap.of(
-        "serverId", serverId, "worldId", worldId,
-        "x", x, "y", y, "z", z, "itemType", itemType),
+        "itemType", itemType,
+        "playerId", ownerId,
+        "serverId", serverId,
+        "worldId", worldId,
+        "x", x, "y", y, "z", z
+      ),
+      // list of values to return
       ["id", "itemType", "location.x", "location.y", "location.z"],
+      // callback to handle result after it is received
       (Rootbus.Record result) -> {
         if (result.success) {
           EzShops.addShop(result.value);
         }
-      })
+      });
   }
 }
 ```
 
-Forwarding an event:
-
-(note: how do people deal with java not having free form dicts??  The following example isn't correctly java, so we'd have to get it dialed in for java).
+Forwarding a PlayerLoginEvent:
 
 ```java
-Rootbus.Message.Event.sendToRole("PROXY",
-  new Event("PlayerTeleport",
-    server="server-id",
-    world="world-id",
-    location="x,y,z")
-  );
+public void onJoin(final PlayerLoginEvent ev) {
+  Rootbus.Event.send("PlayerLogin", ImmutableMap.of("playerId", ev.target.getUniqueId()));
+}
 ```
-
-Following the above event the proxy would move the player to the new server, and then send an event to that server `PlayerTeleportArrival` which the server would receive and handle the rest of the movement.

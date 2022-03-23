@@ -5,7 +5,7 @@ defmodule Rootbus.Db.Location do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "locations" do
+  typed_schema "locations" do
     belongs_to(:world, Db.World)
     field(:x, :float)
     field(:y, :float)

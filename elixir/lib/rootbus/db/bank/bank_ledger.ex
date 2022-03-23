@@ -6,7 +6,7 @@ defmodule Rootbus.Db.BankLedger do
   @foreign_key_type :binary_id
 
   # double-column... two rows for each transaction, one adding, one subtracting
-  schema "bank_ledgers" do
+  typed_schema "bank_ledgers" do
     belongs_to(:player, Db.Player)
     belongs_to(:account, Db.BankAccount)
     field(:amount, :float)

@@ -5,7 +5,7 @@ defmodule Rootbus.Db.Shop do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "shops" do
+  typed_schema "shops" do
     belongs_to(:location, Db.Location)
     belongs_to(:player, Db.Player)
     field(:item_type, :string)

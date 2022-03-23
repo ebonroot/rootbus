@@ -7,7 +7,7 @@ defmodule Rootbus.Db.Player do
 
   defenum(GameMode, survival: 0, creative: 1, hardcore: 2, adventure: 3)
 
-  schema "players" do
+  typed_schema "players" do
     belongs_to(:user, Db.User)
     # move to settings?
     field(:gamemode, GameMode, default: :survival)

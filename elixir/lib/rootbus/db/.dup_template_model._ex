@@ -5,7 +5,7 @@ defmodule Rootbus.Db.DupTemplate do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  schema "dup_templates" do
+  typed_schema "dup_templates" do
     timestamps()
   end
 

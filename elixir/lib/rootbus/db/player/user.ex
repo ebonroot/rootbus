@@ -14,7 +14,7 @@ defmodule Rootbus.Db.User do
     disabled: 200
   )
 
-  schema "users" do
+  typed_schema "users" do
     field(:name, :string)
     field(:type, Type, default: :unknown)
     timestamps()

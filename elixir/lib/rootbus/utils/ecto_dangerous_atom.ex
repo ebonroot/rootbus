@@ -13,6 +13,7 @@ defmodule Ecto.DangerousAtom do
   """
 
   @behaviour Ecto.Type
+  @type t :: atom()
 
   def type, do: :string
 
